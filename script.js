@@ -1,7 +1,7 @@
 // Create a function computerPlay that will randomly choose between Rock Paper and Scissors whenever called.
 function computerPlay() {
     const choices = ['ROCK', 'PAPER', 'SCISSORS'];
-    let choiceIndex = Math.floor((Math.random()*3));
+    const choiceIndex = Math.floor((Math.random() * 3) + 1);
     return choices[choiceIndex];
 }
 
@@ -34,19 +34,11 @@ function playRound(computerSelection, playerSelection) {
         console.log('ROCK beats SCISSORS. You win!');
         return 'USER';
     } else if (computerSelection === 'SCISSORS' && playerSelection === 'SCISSORS') {
-        return 'Both chose SCISSORS. It\'s a tie!';
+        return 'Both chose SCISSORS';
     } else if (computerSelection === 'SCISSORS' && playerSelection === 'PAPER') {
         console.log('SCISSORS beats PAPER. You lose!');
         return 'COMP';
     }
-}
-
-function tieBreaker(computerSelection, playerSelection) {
-    let result = '';
-    while (result != 'USER' || result != 'COMP') {
-        result = playRound(computerSelection, playerSelection);
-    }
-    return result;
 }
 
 function winner(compWins, playerWins) {
@@ -85,3 +77,5 @@ function game() {
     //     winner(compWins, userWins)
     // }
 }
+
+game();
