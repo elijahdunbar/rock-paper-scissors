@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Itim&display=swap');
+
+body {
+  background-color: #ecc3ec;
+  color: #8a62ff;
+  font-family: 'Itim', cursive;
+  text-align: center;
+}
+
+h1 {
+  font-size: 5em;
+}
+
+#scoreboard {
+  display: flex;
+  justify-content: space-between;
+  margin: 50px auto 0 auto;
+  font-size: 3em;
+  max-width: 75vw;
+}
+
+#scoreboard p {
+  border-radius: 20px;
+  border: #8a62ff solid 3px;
+  padding: 15px 20px;
+}
+
+#rps-btns {
+  display: flex;
+  justify-content: space-around;
+  margin: 50px auto 0 auto;
+  max-width: 55vw;
+}
+
+button {
+  font-size: 3.5em;
+  padding: 25px;
+  cursor: pointer;
+  border-radius: 20px;
+  border: #8a62ff solid 3px;
+  transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+  /* background-color: transparent; */
+  color: inherit;
+  font-family: inherit;
+}
+
+button:hover {
+  color: #fff;
+  outline: 0;
+  box-shadow: 0 0 40px 40px #8a62ff inset;
+}
+
+.round-result {
+  margin-top: 50px;
+  font-size: 2em;
+}
+
+#play-btn {
+  margin-top: 50px;
+  font-size: 2em;
+  padding: 15px 40px;
+}
