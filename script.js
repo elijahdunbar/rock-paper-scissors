@@ -3,13 +3,13 @@ const rock = document.querySelector('#rock');
 const paper = document.querySelector('#paper');
 const scissors = document.querySelector('#scissors');
 const play = document.querySelector('#play-btn');
-const win = true;
-const lose = true;
-const tie = true;
+const computerScoreboard = document.querySelector('#computer-score');
+const playerScoreboard = document.querySelector('#player-score');
 
 rock.addEventListener('click', () => {
   const computerMove = computerPlay();
-  playRound(computerMove, 'ROCK');
+  const result = playRound(computerMove, 'ROCK');
+  updateScore(result);
 });
 
 paper.addEventListener('click', () => {
@@ -38,27 +38,35 @@ function updateResult(text, move) {
 
 // Create a function that plays a single round takes computerSelection and playerSelection as parameters
 function playRound(computerSelection, playerSelection) {
+  const win = 'WIN';
+  const lose = 'LOSE'
+  const tie = 'TIE';
 
   if (computerSelection === 'ROCK' && playerSelection === 'PAPER') {
     updateResult(`${playerSelection} beats ${computerSelection}. You win!`, computerSelection);
+    updateScore('player');
     return win;
   } else if (computerSelection === 'ROCK' && playerSelection === 'ROCK') {
     updateResult(`Both chose ${playerSelection}. Tie!`, computerSelection);
     return tie;
   } else if (computerSelection === 'ROCK' && playerSelection === 'SCISSORS') {
     updateResult(`${computerSelection} beats ${playerSelection}. You lose!`, computerSelection);
+    updateScore('computer');
     return lose;
   } else if (computerSelection === 'PAPER' && playerSelection === 'SCISSORS') {
     updateResult(`${playerSelection} beats ${computerSelection}. You win!`, computerSelection);
+    updateScore('player');
     return win;
   } else if (computerSelection === 'PAPER' && playerSelection === 'PAPER') {
     updateResult(`Both chose ${playerSelection}. Tie!`, computerSelection);
     return tie;
   } else if (computerSelection === 'PAPER' && playerSelection === 'ROCK') {
     updateResult(`${computerSelection} beats ${playerSelection}. You lose!`, computerSelection);
+    updateScore('computer');
     return lose;
   } else if (computerSelection === 'SCISSORS' && playerSelection === 'ROCK') {
     updateResult(`${playerSelection} beats ${computerSelection}. You win!`, computerSelection);
+    updateScore('player');
     return win;
   } else if (
     computerSelection === 'SCISSORS' && playerSelection === 'SCISSORS') {
@@ -66,21 +74,17 @@ function playRound(computerSelection, playerSelection) {
     return tie;
   } else if (computerSelection === 'SCISSORS' && playerSelection === 'PAPER') {
     updateResult(`${computerSelection} beats ${playerSelection}. You lose!`, computerSelection);
+    updateScore('computer');
     return lose;
   }
 }
 
-function winner(compWins, playerWins) {
-  let loseMessage = 'You Lose! Too Bad :(';
-  let winMessage = 'You Win! To the victor goes the spoils!';
-  let tie = "It's a tie!";
-  if (compWins < playerWins) {
-    console.log(winMessage);
-  } else if (compWins < playerWins) {
-    console.log(loseMessage);
-  } else {
-    console.log(tie);
-  }
+function updateScore(scoreboard) {
+  if (scoreboard === 'player') {
+    playerScoreboard.textContent = Number(playerScoreboard.textContent) + 1;
+  } else if (scoreboard === 'computer') {
+    computerScoreboard.textContent = Number(computerScoreboard.textContent) + 1;
+  } 
 }
 
 function game() {
