@@ -1,2 +1,2 @@
 # rock-paper-scissors
-Rock paper scissors made in Javascript ( now with UI :) )
+Rock paper scissors made in Javascript now with UI :)
