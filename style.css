@@ -60,3 +60,7 @@ button:hover {
   font-size: 2em;
   padding: 15px 40px;
 }
+
+.hidden {
+  display: none;
+}

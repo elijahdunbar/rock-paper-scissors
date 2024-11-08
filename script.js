@@ -1,15 +1,14 @@
-// Create a function computerPlay that will randomly choose between Rock Paper and Scissors whenever called.
 const rock = document.querySelector('#rock');
 const paper = document.querySelector('#paper');
 const scissors = document.querySelector('#scissors');
 const play = document.querySelector('#play-btn');
 const computerScoreboard = document.querySelector('#computer-score');
 const playerScoreboard = document.querySelector('#player-score');
+let gameOn = false;
 
 rock.addEventListener('click', () => {
   const computerMove = computerPlay();
-  const result = playRound(computerMove, 'ROCK');
-  updateScore(result);
+  playRound(computerMove, 'ROCK');
 });
 
 paper.addEventListener('click', () => {
@@ -22,6 +21,8 @@ scissors.addEventListener('click', () => {
   playRound(computerMove, 'SCISSORS');
 });
 
+play.addEventListener('click', toggleGameState);
+
 function computerPlay() {
   const choices = ['ROCK', 'PAPER', 'SCISSORS'];
   const choiceIndex = Math.floor(Math.random() * 3);
@@ -33,75 +34,91 @@ function updateResult(text, move) {
   const computerMove = document.querySelector('#computer-move');
 
   result.textContent = text;
-  computerMove.textContent = `Computer move: ${move}`;
+  if (move === 'game over') {
+    computerMove.textContent = "Game Over."
+  } else {
+    computerMove.textContent = `Computer move: ${move}`;
+  }
+  
 }
 
 // Create a function that plays a single round takes computerSelection and playerSelection as parameters
-function playRound(computerSelection, playerSelection) {
-  const win = 'WIN';
-  const lose = 'LOSE'
-  const tie = 'TIE';
+function playRound(comp, player) {
+  if (gameOn) {
+    const result = roundWinner(comp, player);
+    
+    if (result === 'comp') {
+      const winnerScore = updateScore('computer');
+      if (!isWinner(winnerScore)) {
+        updateResult(`${comp} beats ${player}. You lose!`, comp);
+      } else {
+        updateResult(`${comp} beats ${player}. You lose!`, 'game over');
+        toggleGameState();
+      }
+      
+    } else if (result === 'player') {
+      const winnerScore = updateScore('player');
+      if (!isWinner(winnerScore)) {
+        updateResult(`${player} beats ${comp}. You win!`, comp)
+      } else {
+        updateResult(`${player} beats ${comp}. You win!`, 'game over');
+        toggleGameState();
+      }
+    } else {
+      updateResult(`Both chose ${player}. Tie!`, comp);
+    }
+  } else {
+    alert("Press Play")
+  }
+}
 
-  if (computerSelection === 'ROCK' && playerSelection === 'PAPER') {
-    updateResult(`${playerSelection} beats ${computerSelection}. You win!`, computerSelection);
-    updateScore('player');
-    return win;
-  } else if (computerSelection === 'ROCK' && playerSelection === 'ROCK') {
-    updateResult(`Both chose ${playerSelection}. Tie!`, computerSelection);
-    return tie;
-  } else if (computerSelection === 'ROCK' && playerSelection === 'SCISSORS') {
-    updateResult(`${computerSelection} beats ${playerSelection}. You lose!`, computerSelection);
-    updateScore('computer');
-    return lose;
-  } else if (computerSelection === 'PAPER' && playerSelection === 'SCISSORS') {
-    updateResult(`${playerSelection} beats ${computerSelection}. You win!`, computerSelection);
-    updateScore('player');
-    return win;
-  } else if (computerSelection === 'PAPER' && playerSelection === 'PAPER') {
-    updateResult(`Both chose ${playerSelection}. Tie!`, computerSelection);
-    return tie;
-  } else if (computerSelection === 'PAPER' && playerSelection === 'ROCK') {
-    updateResult(`${computerSelection} beats ${playerSelection}. You lose!`, computerSelection);
-    updateScore('computer');
-    return lose;
-  } else if (computerSelection === 'SCISSORS' && playerSelection === 'ROCK') {
-    updateResult(`${playerSelection} beats ${computerSelection}. You win!`, computerSelection);
-    updateScore('player');
-    return win;
-  } else if (
-    computerSelection === 'SCISSORS' && playerSelection === 'SCISSORS') {
-    updateResult(`Both chose ${playerSelection}. Tie!`, computerSelection);
-    return tie;
-  } else if (computerSelection === 'SCISSORS' && playerSelection === 'PAPER') {
-    updateResult(`${computerSelection} beats ${playerSelection}. You lose!`, computerSelection);
-    updateScore('computer');
-    return lose;
+function roundWinner(comp, player) {
+  if (comp === 'ROCK' && player === 'PAPER') {
+    return 'player';
+  } else if (comp === 'ROCK' && player === 'SCISSORS') {
+    return 'comp';
+  } else if (comp === 'PAPER' && player === 'SCISSORS') {
+    return 'player';
+  } else if (comp === 'PAPER' && player === 'ROCK') {
+    return 'comp';
+  } else if (comp === 'SCISSORS' && player === 'ROCK') {
+    return 'player';
+  } else if (comp === 'SCISSORS' && player === 'PAPER') {
+    return 'comp';
   }
 }
 
 function updateScore(scoreboard) {
   if (scoreboard === 'player') {
     playerScoreboard.textContent = Number(playerScoreboard.textContent) + 1;
+    return Number(playerScoreboard.textContent);
   } else if (scoreboard === 'computer') {
     computerScoreboard.textContent = Number(computerScoreboard.textContent) + 1;
+    return Number(computerScoreboard.textContent);
   } 
+
 }
 
-function game() {
-  let compWins = 0;
-  let userWins = 0;
-
-  for (let i = 0; i < 5; i++) {
-    let result = playRound(computerPlay(), playerSelect());
-    if (result === 'USER') {
-      userWins += 1;
-    } else if (result === 'COMP') {
-      compWins += 1;
-    } else {
-      console.log(result);
-    }
+function isWinner(score) {
+  if (score === 5) {
+    return true;
+  } else {
+    return false;
   }
-  winner(compWins, userWins);
 }
 
-// game();
+function toggleGameState() {
+  if (gameOn) {
+    play.classList.remove('hidden');
+    gameOn = false;
+  } else {
+    play.classList.add('hidden');
+    resetScores();
+    gameOn = true;
+  }
+}
+
+function resetScores() {
+  playerScoreboard.textContent = 0;
+  computerScoreboard.textContent = 0;
+}
